@@ -41,7 +41,10 @@ function App() {
   })
   const [product, setProduct] = useState({})
   useEffect(() => {
-    !isLoading && setProduct(data.products[Math.floor(Math.random() * 6)])
+    !isLoading &&
+      setProduct(
+        data.products[Math.floor(Math.random() * data.products.length)]
+      )
   }, [onToggle])
 
   useEffect(() => {
@@ -70,7 +73,6 @@ function App() {
           id='notification'
           bg={'red.700'}
           color={'white'}
-          w={600}
           p={4}
           direction={{ base: 'column', sm: 'row' }}
           overflow='hidden'
