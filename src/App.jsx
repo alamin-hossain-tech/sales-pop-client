@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import notificationImage from './assets/notification.png'
 import './App.css'
+import products from './fakedata/products.json'
 import {
   Badge,
   Box,
@@ -26,10 +27,24 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
+import { useQuery } from 'react-query'
 
 function App() {
   const [count, setCount] = useState(0)
   const { isOpen, onToggle } = useDisclosure()
+  const { data, refetch, isLoading } = useQuery({
+    queryKey: [],
+    queryFn: () =>
+      fetch('https://product-management-nine.vercel.app/products').then((res) =>
+        res.json()
+      )
+  })
+  const [product, setProduct] = useState({})
+  useEffect(() => {
+    !isLoading && setProduct(data.products[Math.floor(Math.random() * 6)])
+  }, [onToggle])
+
+  console.log(product)
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCount((prevCount) => prevCount + 1)
@@ -69,13 +84,15 @@ function App() {
             height={'120px'}
             alignSelf={'center'}
             maxW={{ base: '100%', sm: '120px' }}
-            src='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
+            src={product?.img}
             alt='Caffe Latte'
           />
           <Stack>
             <CardBody p={'none'} pl={8}>
               <HStack justifyContent={'space-between'}>
-                <Heading fontSize={24}>Product Title</Heading>
+                <Heading color={'white'} fontSize={24}>
+                  {product?.name}
+                </Heading>
                 <Image
                   objectFit={'cover'}
                   src={notificationImage}
@@ -84,12 +101,11 @@ function App() {
               </HStack>
 
               <Text py='2' fontSize={18}>
-                Description : Lorem ipsum dolor sit amet consectetur,
-                adipisicing elit. Quasi, officiis.
+                Price: ${product?.price}
               </Text>
               <HStack justifyContent={'space-between'}>
-                <Badge fontSize={14} my={3} py={1}>
-                  Just now
+                <Badge fontSize={14} my={3} p={1}>
+                  Ordered Just now
                 </Badge>
                 <CloseIcon
                   _hover={{
