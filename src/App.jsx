@@ -44,8 +44,8 @@ function App() {
     !isLoading && setProduct(data.products[Math.floor(Math.random() * 6)])
   }, [onToggle])
 
-  !isLoading &&
-    useEffect(() => {
+  useEffect(() => {
+    if (!isLoading) {
       const intervalId = setInterval(() => {
         setCount((prevCount) => prevCount + 1)
         onToggle()
@@ -61,7 +61,8 @@ function App() {
       return () => {
         clearInterval(intervalId)
       }
-    }, [count])
+    }
+  }, [count, isLoading])
   return (
     <div>
       <Slide direction='left' in={isOpen} style={{ zIndex: 10 }}>
