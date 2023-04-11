@@ -108,6 +108,7 @@ function App() {
                   Ordered Just now
                 </Badge>
                 <CloseIcon
+                  onClick={onToggle}
                   _hover={{
                     color: 'darkgray',
                     cursor: 'pointer',
