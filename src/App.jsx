@@ -44,24 +44,24 @@ function App() {
     !isLoading && setProduct(data.products[Math.floor(Math.random() * 6)])
   }, [onToggle])
 
-  console.log(product)
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCount((prevCount) => prevCount + 1)
-      onToggle()
+  !isLoading &&
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        setCount((prevCount) => prevCount + 1)
+        onToggle()
 
-      if (count === 19) {
+        if (count === 19) {
+          clearInterval(intervalId)
+          setTimeout(() => {
+            setCount(0)
+          }, 5000)
+        }
+      }, 3000)
+
+      return () => {
         clearInterval(intervalId)
-        setTimeout(() => {
-          setCount(0)
-        }, 5000)
       }
-    }, 3000)
-
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [count])
+    }, [count])
   return (
     <div>
       <Slide direction='left' in={isOpen} style={{ zIndex: 10 }}>
