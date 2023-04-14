@@ -11,7 +11,7 @@ const queryClient = new QueryClient({
     }
   }
 })
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('sales-pop')).render(
   <React.StrictMode>
     <ChakraProvider>
       <QueryClientProvider client={queryClient}>
